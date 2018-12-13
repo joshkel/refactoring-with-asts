@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/sky.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +24,57 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Refactoring with ASTs</h1>
+				</section>
+
+				<section>
+					<h3>Very Easy: Change a Variable Name</h3>
+				</section>
+
+				<section>
+					<h3>Easy: Extract Code Into Its Own Method</h3>
+				</section>
+
+				<section>
+					<h3>Moderate: Process Duplicate Code</h3>
+				</section>
+
+				<section>
+					<h3>Hard: Advanced Processing</h3>
+				</section>
+
+				<section>
+					<h3>Abstract Syntax Trees</h3>
+					<pre><code>while b ≠ 0
+	if a > b
+		a := a − b
+	else
+		b := b − a
+return a</code></pre>
+					<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">&mdash;Wikipedia, “Abstract Syntax Trees”</a>
+				</section>
+
+				<section>
+					<img src="img/Abstract_syntax_tree_for_Euclidean_algorithm.svg" alt="Abstract syntax tree for Euclidean algorithm">
+				</section>
+
+				<section>
+					<img src="img/dragon-book.jpeg" alt="Compilers: Principles, Techniques, and Tools">
+				</section>
+
+				<section data-background="img/terra-incognit.jpg">
+					<h1 style="color: white; text-shadow: 0 0 20px black">Here Be Dragons</h1>
+				</section>
+
+				<section>
+					<h3>Credits</h3>
+					<ul>
+						<li><a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Trees</a>, Wikipedia</li>
+						<li><a href="https://books.google.com/books/about/Compilers_Principles_Techniques_and_Tool.html?id=-4Q_AQAAIAAJ&source=kp_cover"><i>Compilers: Principles, Techniques, and Tools</i></a>, Aho, Sethi, and Ullman</li>
+						<li><a href="https://en.wikipedia.org/wiki/Carta_marina#/media/File:Carta_Marina.jpeg">Carta Marina</a>, by Olaus Magnus</li>
+					</ul>
+				</section>
 			</div>
 		</div>
 
@@ -37,6 +86,7 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				history: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
