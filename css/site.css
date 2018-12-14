@@ -1,0 +1,7 @@
+.reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    text-transform: capitalize;
+}
+
+.reveal pre > code {
+    max-height: 600px;
+}

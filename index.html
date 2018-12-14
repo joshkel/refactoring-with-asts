@@ -31,15 +31,70 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section><h1>Refactoring with Abstract Syntax Trees</h1></section>
+        <section>
+          <h1>Refactoring with ASTs</h1>
+          <p class="fragment">(Abstract Syntax Trees)</p>
+        </section>
 
-        <section><h3>Very Easy: Change a Variable Name</h3></section>
+        <section>
+          <h2>Manual Refactoring</h2>
+          <ul>
+            <li class="fragment">It takes time.</li>
+            <li class="fragment">You might make a mistake.</li>
+          </ul>
+          <aside class="notes">
+            You have some code. You need to change this code - to better
+            accommodate new functionality, to keep up with language or library
+            changes, to reflect things you've learned as you've designed the
+            codebase or learned more about the problem domain&hellip; How are
+            you going to do this?
+          </aside>
+        </section>
 
-        <section><h3>Easy: Extract Code Into Its Own Method</h3></section>
+        <section><h2>Automatic Refactoring</h2></section>
+
+        <section>
+          <h3>Very Easy: Change a Variable Name</h3>
+          <img src="img/rename.png" />
+        </section>
+
+        <section><h3>Easy: Extract Method</h3></section>
 
         <section><h3>Moderate: Process Duplicate Code</h3></section>
 
-        <section><h3>Hard: Advanced Processing</h3></section>
+        <section><h3>Hard: Arbitrary Changes</h3></section>
+
+        <section>
+          <pre><code>$.post({
+  url: base_url + '/api/update_name',
+  type: 'POST',
+  data: {
+    first_name: first_name,
+    last_name: last_name,
+    csrf_token: my_csrf_token
+  },
+  success: function(data) {
+    var json;
+    try {
+      json = $.parseJSON(data);
+      do_something_with_data(json);
+    } catch (e) {
+      alert(e.message);  // probably back-end error
+    }
+  },
+  error: function(xhr, status, error) {
+    handle_ajax_error(xhr, status, error);
+  }
+})</code></pre>
+          <aside class="notes">
+            Some sample client code. Note the stuff here that we might like to
+            clean up - that CSRF token looks like a global variable, maybe we
+            want to update our API URLs, the error handling looks kind of ad
+            hoc. Also notice the boilerplate - the only interesting bits here
+            are the data parameters and "do_something_with_json". The rest is
+            noise.
+          </aside>
+        </section>
 
         <section>
           <h3>Abstract Syntax Trees</h3>
@@ -82,37 +137,142 @@ return a</code></pre>
 
         <section>
           <h3>HTML Syntax Tree</h3>
-          <pre><code><TABLE>
-    <TBODY>
-        <TR>
-            <TD>Shady Grove</TD>
-            <TD>Aeolian</TD>
-        </TR>
-        <TR>
-            <TD>Over the River, Charlie</TD>
-            <TD>Dorian</TD>
-        </TR>
-    </TBODY>
-</TABLE></code></pre>
+          <pre><code>&lt;TABLE>
+    &lt;TBODY>
+        &lt;TR>
+            &lt;TD>Shady Grove&lt;/TD>
+            &lt;TD>Aeolian&lt;/TD>
+        &lt;/TR>
+        &lt;TR>
+            &lt;TD>Over the River, Charlie&lt;/TD>
+            &lt;TD>Dorian&lt;/TD>
+        &lt;/TR>
+    &lt;/TBODY>
+&lt;/TABLE></code></pre>
         </section>
 
         <section>
-            <h3>HTML Syntax Tree</h3>
-            <img src="img/dom-table.gif" alt="Graphical representation of DOM" />
+          <h3>HTML Syntax Tree</h3>
+          <img src="img/dom-table.gif" alt="Graphical representation of DOM" />
         </section>
 
-		<section>
-			<h3>Manipulating HTML</h3>
-			<pre><code>$("tr > td:first-child").addClass("title-cell")</code></pre>
+        <section>
+          <h3>Manipulating HTML</h3>
+          <pre><code>$("tr > td:first-child").addClass("title-cell")</code></pre>
 
-			<aside class="notes">
-				Think for a moment how cool this is.  We have this arbitrarily complex
-				chunk of HTML code, and the computer's automatically parsed it and turned
-				it into a tree representation, then with just a few lines of code we can
-				manipulate it willy-nilly and express arbitrarily complex transformations
-				to it.
-			</aside>
-		</section>
+          <aside class="notes">
+            Think for a moment how cool this is. We have this arbitrarily
+            complex chunk of HTML code, and the computer's automatically parsed
+            it and turned it into a tree representation, then with just a few
+            lines of code we can manipulate it willy-nilly and express
+            arbitrarily complex transformations to it.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Updating Code</h3>
+          <p>The eternal dilemma:</p>
+          <ul>
+            <li class="fragment">Improve interfaces?</li>
+            <li class="fragment">Maintain stability?</li>
+          </ul>
+        </section>
+
+        <section
+          data-background="img/Live-at-head.png"
+          data-background-size="contain"
+          data-background-color="#000"
+        >
+          <aside class="notes">
+            Abseil is a newish C++ library from Google. It has an interesting
+            release philosophy - they deliberately avoid SemVer and doing
+            versioned releases, and they instead say that you should just always
+            use whatever's at head.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Google Abseil</h3>
+          <p>We make the following promises:</p>
+
+          <ul>
+            <li>
+              If your code behaves according to our compatibility guidelines, it
+              shouldn’t break in the face of our changes.
+            </li>
+            <li>
+              If we need to refactor an API that you depend on, we will provide
+              a tool that should be able to perform the refactoring for
+              well-behaved code.
+            </li>
+          </ul>
+
+          <p>
+            &mdash;
+            <a
+              href="https://abseil.io/about/philosophy#we-recommend-that-you-choose-to-live-at-head"
+              >Why Adopt Abseil?</a
+            >
+          </p>
+
+          <aside class="notes">
+            Google has 250M lines of C++ code and over 12,000 active developers.
+            They've consciously avoided doing versioned releases for Abseil,
+            their C++ utility library that's shared by several of their
+            products. Instead, they do exactly what we're talking about - using
+            tools to safely and automatically update dependent code when APIs
+            change. This gives them the freedom to make whatever API changes
+            they want - the freedom to respond to change.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sample Uses</h3>
+          <ul>
+            <li class="fragment">
+              <a href="https://github.com/reactjs/react-codemod"
+                >react-codemod</a
+              >
+              - upgrade React versions
+            </li>
+            <li class="fragment">
+              <a href="https://github.com/cpojer/js-codemod"
+                >cpojer/js-codemod</a
+              >
+              - automatically use arrow functions, <code>let</code> and
+              <code>const</code>, object shorthand, template strings, new ES6
+              functions&hellip;
+            </li>
+            <li class="fragment">
+              <a href="https://github.com/sejoker/awesome-jscodeshift"
+                >awesome-jscodeshift</a
+              >
+              - more resources
+            </li>
+            <li class="fragment">
+              <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a> -
+              modernize C++ code
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Resources</h3>
+          <ul>
+            <li>
+              <a href="https://github.com/facebook/jscodeshift">
+                facebook/jscodeshift
+              </a>
+            </li>
+            <li><a href="https://astexplorer.net/">AST Explorer</a></li>
+            <li>
+              <a
+                href="https://www.toptal.com/javascript/write-code-to-rewrite-your-code"
+                >Write Code to Rewrite Your Code</a
+              >, Jeremy Greer
+            </li>
+          </ul>
+        </section>
 
         <section>
           <h3>Credits</h3>
@@ -133,11 +293,17 @@ return a</code></pre>
                 href="https://en.wikipedia.org/wiki/Carta_marina#/media/File:Carta_Marina.jpeg"
                 >Carta Marina</a
               >, by Olaus Magnus
-			</li>
-			<li>
-				<a href="https://www.w3.org/TR/DOM-Level-2-Core/introduction.html">What is the Document Object Model?</a>,
-				Philippe Le Hégaret, Lauren Wood, Jonathan Robie
-			</li>
+            </li>
+            <li>
+              <a href="https://www.w3.org/TR/DOM-Level-2-Core/introduction.html"
+                >What is the Document Object Model?</a
+              >, Philippe Le Hégaret, Lauren Wood, Jonathan Robie
+            </li>
+            <li>
+              <a href="https://youtu.be/tISy7EJQPzI?t=2512"
+                >C++ as a “Live at Head” Language</a
+              >, Tidus Winters, CppCon 2017
+            </li>
           </ul>
         </section>
       </div>
