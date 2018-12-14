@@ -1,99 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/sky.css">
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/sky.css" />
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" />
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<h1>Refactoring with ASTs</h1>
-				</section>
+    <link rel="stylesheet" href="css/site.css" />
 
-				<section>
-					<h3>Very Easy: Change a Variable Name</h3>
-				</section>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section><h1>Refactoring with Abstract Syntax Trees</h1></section>
 
-				<section>
-					<h3>Easy: Extract Code Into Its Own Method</h3>
-				</section>
+        <section><h3>Very Easy: Change a Variable Name</h3></section>
 
-				<section>
-					<h3>Moderate: Process Duplicate Code</h3>
-				</section>
+        <section><h3>Easy: Extract Code Into Its Own Method</h3></section>
 
-				<section>
-					<h3>Hard: Advanced Processing</h3>
-				</section>
+        <section><h3>Moderate: Process Duplicate Code</h3></section>
 
-				<section>
-					<h3>Abstract Syntax Trees</h3>
-					<pre><code>while b ≠ 0
-	if a > b
-		a := a − b
-	else
-		b := b − a
+        <section><h3>Hard: Advanced Processing</h3></section>
+
+        <section>
+          <h3>Abstract Syntax Trees</h3>
+          <pre><code>while b ≠ 0
+    if a > b
+        a := a − b
+    else
+        b := b − a
 return a</code></pre>
-					<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">&mdash;Wikipedia, “Abstract Syntax Trees”</a>
-				</section>
+          <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree"
+            >&mdash;Wikipedia, “Abstract Syntax Trees”</a
+          >
+        </section>
 
-				<section>
-					<img src="img/Abstract_syntax_tree_for_Euclidean_algorithm.svg" alt="Abstract syntax tree for Euclidean algorithm">
-				</section>
+        <section>
+          <img
+            src="img/Abstract_syntax_tree_for_Euclidean_algorithm.svg"
+            alt="Abstract syntax tree for Euclidean algorithm"
+          />
+        </section>
 
-				<section>
-					<img src="img/dragon-book.jpeg" alt="Compilers: Principles, Techniques, and Tools">
-				</section>
+        <section>
+          <img
+            src="img/dragon-book.jpeg"
+            alt="Compilers: Principles, Techniques, and Tools"
+          />
 
-				<section data-background="img/terra-incognit.jpg">
-					<h1 style="color: white; text-shadow: 0 0 20px black">Here Be Dragons</h1>
-				</section>
+          <aside class="notes">
+            Knight armed with armor of data flow analysis, and a shield of
+            syntax directed translation, and an LALR parser generator for a
+            sword, and he's going to fight the dragon of compiler design.
+          </aside>
+        </section>
 
-				<section>
-					<h3>Credits</h3>
-					<ul>
-						<li><a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Trees</a>, Wikipedia</li>
-						<li><a href="https://books.google.com/books/about/Compilers_Principles_Techniques_and_Tool.html?id=-4Q_AQAAIAAJ&source=kp_cover"><i>Compilers: Principles, Techniques, and Tools</i></a>, Aho, Sethi, and Ullman</li>
-						<li><a href="https://en.wikipedia.org/wiki/Carta_marina#/media/File:Carta_Marina.jpeg">Carta Marina</a>, by Olaus Magnus</li>
-					</ul>
-				</section>
-			</div>
-		</div>
+        <section data-background="img/terra-incognit.jpg">
+          <h1 style="color: white; text-shadow: 0 0 20px black">
+            Here Be Dragons
+          </h1>
+        </section>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+        <section>
+          <h3>HTML Syntax Tree</h3>
+          <pre><code><TABLE>
+    <TBODY>
+        <TR>
+            <TD>Shady Grove</TD>
+            <TD>Aeolian</TD>
+        </TR>
+        <TR>
+            <TD>Over the River, Charlie</TD>
+            <TD>Dorian</TD>
+        </TR>
+    </TBODY>
+</TABLE></code></pre>
+        </section>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				history: true,
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        <section>
+            <h3>HTML Syntax Tree</h3>
+            <img src="img/dom-table.gif" alt="Graphical representation of DOM" />
+        </section>
+
+		<section>
+			<h3>Manipulating HTML</h3>
+			<pre><code>$("tr > td:first-child").addClass("title-cell")</code></pre>
+
+			<aside class="notes">
+				Think for a moment how cool this is.  We have this arbitrarily complex
+				chunk of HTML code, and the computer's automatically parsed it and turned
+				it into a tree representation, then with just a few lines of code we can
+				manipulate it willy-nilly and express arbitrarily complex transformations
+				to it.
+			</aside>
+		</section>
+
+        <section>
+          <h3>Credits</h3>
+          <ul>
+            <li>
+              <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree"
+                >Abstract Syntax Trees</a
+              >, Wikipedia
+            </li>
+            <li>
+              <a
+                href="https://books.google.com/books/about/Compilers_Principles_Techniques_and_Tool.html?id=-4Q_AQAAIAAJ&source=kp_cover"
+                ><i>Compilers: Principles, Techniques, and Tools</i></a
+              >, Aho, Sethi, and Ullman
+            </li>
+            <li>
+              <a
+                href="https://en.wikipedia.org/wiki/Carta_marina#/media/File:Carta_Marina.jpeg"
+                >Carta Marina</a
+              >, by Olaus Magnus
+			</li>
+			<li>
+				<a href="https://www.w3.org/TR/DOM-Level-2-Core/introduction.html">What is the Document Object Model?</a>,
+				Philippe Le Hégaret, Lauren Wood, Jonathan Robie
+			</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+    </script>
+  </body>
 </html>
